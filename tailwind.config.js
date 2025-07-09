@@ -12,6 +12,7 @@ module.exports = {
         black: {
           DEFAULT: "#000",
         },
+        blue: "#4580F5",
       },
     },
   },
