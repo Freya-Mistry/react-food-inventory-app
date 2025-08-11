@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { CustomButton, FormField } from "../../components"
 import { Link } from 'expo-router'
+import { createUser } from '../../lib/appwrite'
 
 const SignUp = () => {
   const [form, setform] = useState({
@@ -13,8 +14,24 @@ const SignUp = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const submit = () => {
+  const submit = async () => {
+    if(!form.username || !form.email || !form.password) {
+      Alert.alert('Error', 'Please fill in all the fields')
+    }
 
+    setIsSubmitting(true);
+    
+    try{
+      const result = await createUser(form.email, form.password, form.username)
+
+      // set to global state later on
+
+      router.replace('/home')
+    } catch(error) {
+      Alert.alert('Error', error.message)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
